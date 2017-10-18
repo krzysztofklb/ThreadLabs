@@ -1,0 +1,39 @@
+project - > projektName.properties -> c/c++ - > language -> Open MP Support (YES) - dla release i debug
+
+omp.h - wszystko tutaj
+
+omp_get lub set :D 
+
+omp_get_nested - pyta czy dozwolone jest zagnie¿dzanie w¹tków
+
+| | |   |
+v v v   v
+      | | |
+      v v v
+
+z regu³y nie mo¿na
+
+omp_set_nested ( 0 ) - zabrania 
+omp_set_nested( 2 ) - pozwala (cokolwiek innego niz 0 )
+
+omp_get_dynamic() - czy liczbe watkow zezwalam, by komputer sam sobie dopisa³
+omp_get_dynamic(18) - komputer sam sobie przyzwala odpowiednia liczbe watkow
+
+omp_set_num_threads(16) - ustawiam liczbe watkow 
+
+critical - w jednym momemencie, jeden watek, reszta watkow czeka
+
+w printfie - nie trzeba criticala
+
+private - ka¿dy osobno,
+
+shared - dzielony, np. 6 watkow musi skorzystaæ z tej samej tablicy
+default
+
+#pragma omp parallel - dyrektywa zrównoleglenia r
+
+#pragma omp critical - trzeba zadbac o synchronizacje wejsc wyjsc, zeby nie bylo smieci - kiedy wszystkei chca sie dostac do bufora, to dajemy critical
+
+#pragma omp barrier - czekamy na wszystkie watki az dojda 
+
+#pragma omp single - to co ponizej robi tylko jeden watek 

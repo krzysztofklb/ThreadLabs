@@ -1,0 +1,38 @@
+bierzemy 600 kostek, 6 do góry, pukamy lekko w stó³ - wiêkszoœæ siê nie ruszy, ale niektóre siê porusz¹ i bêdzie pare 1, 2, itd. na 100 pukniêæ, co 20 kostka ma byæ podbita przy kazdym puknieciu
+Piszemy w tabelce, znowu pukamy, znowu zapisujemy
+itd.
+itd.
+z czasem siê to wyrównuje ( liczba jedynek, dwójek itd.)
+Entropia takiego ukl³adu:
+S = ln (N!/(n1!*n2!*...*n6!)
+
+N-liczba kostek
+n1, n2 .. n6 - liczba 1, liczba dwójek ... liczba szóstek
+
+ln(n!)
+wzór Stirlinga 
+
+Program ma symulowaæ, generator liczb losowych. Co któraœ siê zmienia. Losowe liczby 
+
+time_t czas;
+const lkostek = 600
+int oczka_kostki[lkostek+1],
+liczba_kostek[7]
+int nr_kostki
+float entro, rob;
+
+los1 = rand()%20
+
+void czekajmis(int ilemis){
+time_t czas;
+czas = ilemis + clock();
+while (czas >= clock()) {};
+}
+
+
+
+przerobic program tak aby dzialal wolniej 
+z czekaniem tez zrobic
+
+
+#pragma omp parallel - dyrektywy do zrownoleglenia
