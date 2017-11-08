@@ -30,12 +30,13 @@ int main()
 
 	cout << "Start programu..." << endl;
 
-
-
+#pragma omp parallel for default(none) shared(kostka) num_threads(8)
 	for (int i = 0; i < liczbaKostek; i++) kostka[i] = 6;
 
+
 	for (int i = 0; i < 100; i++) {
-		cout << "\n\Proba " << i + 1 << " : ";
+		/*cout << "\n\Proba " << i + 1 << " : ";*/
+		printf("\nProba %3d : ", i + 1);
 
 		for (int i = 0; i < liczbaKostek; i++)
 		{
@@ -49,14 +50,14 @@ int main()
 
 
 		// liczenie kostki z dana liczba oczek
-
+#pragma omp parallel for default(none) shared(kostka) num_threads(8)
 		for (int j = 0; j < 6; j++)
 		{
 			oczkaKostki[j] = 0;
 			delay(3);
 		}
 
-
+#pragma omp parallel for default(none) shared(kostka) num_threads(8)
 		for (int i = 0; i < liczbaKostek; i++) {
 			for (int j = 1; j < 7; j++)
 			{
@@ -67,7 +68,7 @@ int main()
 		}
 
 
-
+#pragma omp parallel for default(none) shared(kostka) num_threads(8)
 		for (int j = 0; j < 6; j++)
 		{
 			printf("  %5d  ", oczkaKostki[j]);
@@ -77,13 +78,14 @@ int main()
 		entropia = log(liczbaKostek) * (liczbaKostek + 1.0 / 2.0) - liczbaKostek + ((log(2) + log(3.1415)) / 2);
 
 
-
+#pragma omp parallel for default(none) shared(kostka) num_threads(8)
 		for (int j = 0; j < 6; j++) {
 			if (oczkaKostki[j] > 2) {
 				entropia -= log(oczkaKostki[j]) * (oczkaKostki[j] + 1.0 / 2) + ((log(2) + log(3.1415)) / 2) - oczkaKostki[j];
 			}
 		}
-		cout << " | Entropia: " << entropia;
+		/*cout << " | Entropia: " << entropia;*/
+		printf(" | Entropia: %7.3f ", entropia);
 	}
 
 
