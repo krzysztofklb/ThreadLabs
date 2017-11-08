@@ -1,0 +1,6 @@
+﻿  ConsoleApplication2.cpp
+c:\users\e112\documents\piotr ziń\parallel programming\consoleapplication2\consoleapplication2\consoleapplication2.cpp(22): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\e112\documents\piotr ziń\parallel programming\consoleapplication2\consoleapplication2\consoleapplication2.cpp(38): warning C4129: 'P': unrecognized character escape sequence
+c:\users\e112\documents\piotr ziń\parallel programming\consoleapplication2\consoleapplication2\consoleapplication2.cpp(28): warning C4101: 'j': unreferenced local variable
+c:\users\e112\documents\piotr ziń\parallel programming\consoleapplication2\consoleapplication2\consoleapplication2.cpp(28): warning C4101: 'i': unreferenced local variable
+  ConsoleApplication2.vcxproj -> C:\Users\e112\Documents\Piotr Ziń\Parallel Programming\ConsoleApplication2\Debug\ConsoleApplication2.exe
