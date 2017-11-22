@@ -8,12 +8,11 @@ double calcEntropy(int* counter)
 {
 	int sum = 0;
 
-#pragma omp parallel for default(none) shared (counter)	
 	for (int i = 0; i<6; i++)sum += counter[i];
 	
 	double ans = 0.5*log(2 * sum* 3.14) + sum*log(sum) - sum;
 	
-
+#pragma omp parallel for default(none) shared (counter)	reduction(-:ans)
 	for (int i = 0; i<6; i++)
 	{
 		if (0 == counter[i]) continue;
@@ -31,26 +30,29 @@ void delay(int miliseconds) {
 int main()
 {
 	double entropy;
+	int diecesCount = 600;
 	int dices[600];
 	int eyeNumber[6] = { 0,0,0,0,0,0 };
 
 	clock_t start = clock();
 
 	int randomDice;
-	int knockCount = 1000;
+	int knockCount = 800;
 	int usedDices = 30; //podbite kostki
+	int endSum;
 
 #pragma omp parallel for default(none) shared (dices)
-	for (int i = 0; i < 600; i++) {
+	for (int i = 0; i <= diecesCount; i++) {
 		dices[i] = 6;
 	}
 
+//#pragma omp parallel for default(none) private (eyeNumber) shared (dices)
 	for (int n = 1; n <= knockCount; n++) {
 
-#pragma omp parallel for default(none) shared (dices) 
+#pragma omp parallel for default(none) private (randomDice) shared (dices) 
 		for (int m = 0; m < usedDices; m++) {
 			delay(1);
-			randomDice = rand() % 600;
+			randomDice = rand() % diecesCount;
 			dices[randomDice] = rand() % 6 + 1;
 		}
 
@@ -60,36 +62,48 @@ int main()
 			eyeNumber[k] = 0;
 		}
 
-#pragma omp parallel for default(none) shared (dices) 
-		for (int l = 1; l <= 600; l++) {
-			switch (dices[l]) {
-			case  1:
-				eyeNumber[0]++; break;
-			case  2:
-				eyeNumber[1]++; break;
-			case  3:
-				eyeNumber[2]++; break;
-			case  4:
-				eyeNumber[3]++; break;
-			case  5:
-				eyeNumber[4]++; break;
-			case  6:
-				eyeNumber[5]++; break;
-			}
+#pragma omp parallel for default(none) shared (eyeNumber)
+		for (int l = 1; l <= diecesCount; l++) {
+#pragma omp critical
+			if (dices[l] == 1) eyeNumber[0]++;
+#pragma omp critical
+			if (dices[l] == 2) eyeNumber[1]++;
+#pragma omp critical
+			if (dices[l] == 3) eyeNumber[2]++;
+#pragma omp critical
+			if (dices[l] == 4) eyeNumber[3]++;
+#pragma omp critical
+			if (dices[l] == 5) eyeNumber[4]++;
+#pragma omp critical
+			if (dices[l] == 6) eyeNumber[5]++;
 		}
 
 
 		delay(1);
 		entropy = calcEntropy(eyeNumber);
-		printf("etap %5d :", n);
-		printf("%5d", eyeNumber[0]);
-		printf("%5d", eyeNumber[1]);
-		printf("%5d", eyeNumber[2]);
-		printf("%5d", eyeNumber[3]);
-		printf("%5d", eyeNumber[4]);
-		printf("%5d", eyeNumber[5]);
-
-		printf("  entropia = %5f\n", entropy);
+		endSum = 0;
+		for (int g = 0; g < 6; g++) {
+			endSum += eyeNumber[g];
+		}
+		
+#pragma omp critical
+		printf(" | etap %5d :", n);
+#pragma omp critical
+		printf(" 1ki: %4d", eyeNumber[0]);
+#pragma omp critical
+		printf(" 2ki:  %4d", eyeNumber[1]);
+#pragma omp critical
+		printf(" 3ki: %4d", eyeNumber[2]);
+#pragma omp critical
+		printf(" 4ki: %4d", eyeNumber[3]);
+#pragma omp critical
+		printf(" 5ki: %4d", eyeNumber[4]);
+#pragma omp critical
+		printf(" 6ki: %4d", eyeNumber[5]);
+#pragma omp critical
+		printf(" suma =%4d", endSum);
+#pragma omp critical
+		printf(" entropia = %5f\n", entropy);
 
 	}
 
